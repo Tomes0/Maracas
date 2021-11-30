@@ -6,6 +6,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.SystemClock.sleep
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDateTime
@@ -24,11 +25,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
         mSensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
-        Objects.requireNonNull(mSensorManager)
-            ?.registerListener(
-                mSensorListener, mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_NORMAL
-            )
+        Objects.requireNonNull(mSensorManager)?.registerListener(
+            mSensorListener, mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
         mAccel = 10f
         mAccelCurrent = SensorManager.GRAVITY_EARTH
         mAccelLast = SensorManager.GRAVITY_EARTH
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             mAccel = mAccel * 0.9f + delta
             if (mAccel > 4) {
                 playSound()
+                sleep(100)
 
             }
         }
